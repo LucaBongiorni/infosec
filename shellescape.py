@@ -1,7 +1,5 @@
-import os
 import socket
 import sys
-import traceback
 import paramiko
 import threading
 
@@ -11,9 +9,9 @@ session = None
 transport = None
 stopbinding = False
 
-def write(str):
+def write(value):
     with lock:
-        sys.stdout.write(str)
+        sys.stdout.write(value)
         sys.stdout.flush()
 
 def channel_intercept():
@@ -65,7 +63,7 @@ def init():
             sys.exit(1)
 
         if not transport.is_authenticated():
-            transport.auth_password("****", "****")
+            transport.auth_password("**", "**")
         if not transport.is_authenticated():
             write("Authentication failed.")
             transport.close()
